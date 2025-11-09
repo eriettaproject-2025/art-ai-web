@@ -1,44 +1,91 @@
+/* ——— BASIC THEME ——— */
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: #f8f8f8;
-  color: #111;
+  background-color: #0b0b0b;
+  color: #f2f2f2;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-h1, p {
+header {
   text-align: center;
-  margin-top: 2rem;
+  padding: 60px 20px 20px;
 }
 
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+p {
+  color: #ccc;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+/* ——— CREATIVE GRID ——— */
 .gallery {
-  columns: 4; /* number of columns on desktop */
-  column-gap: 15px;
-  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 40px;
+  animation: fadeIn 1s ease forwards;
 }
 
-.gallery img {
+/* ——— IMAGES ——— */
+.art {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.art img {
   width: 100%;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  display: inline-block;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  filter: brightness(90%);
 }
 
-.gallery img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.art:hover img {
+  transform: scale(1.05);
+  filter: brightness(110%);
 }
 
-/* Responsive layout */
-@media (max-width: 1000px) {
-  .gallery { columns: 3; }
+/* ——— CAPTION OVERLAY ——— */
+.art figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  background: rgba(0,0,0,0.6);
+  color: #f2f2f2;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
 }
 
-@media (max-width: 700px) {
-  .gallery { columns: 2; }
+.art:hover figcaption {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@media (max-width: 480px) {
-  .gallery { columns: 1; }
+/* ——— GAN vs HUMAN color hint ——— */
+.gan img { border: 1px solid #4444ff44; }
+.human img { border: 1px solid #ff884444; }
+
+/* ——— RESPONSIVE ——— */
+@media (max-width: 600px) {
+  h1 { font-size: 1.4rem; }
+  .gallery { gap: 15px; padding: 20px; }
+}
+
+/* ——— FADE IN ANIMATION ——— */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
