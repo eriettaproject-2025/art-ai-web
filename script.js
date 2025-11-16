@@ -116,3 +116,20 @@ document.getElementById("generateArt").addEventListener("click", () => {
   console.log("Clicked:", clickedImages);
 
 });
+
+
+
+
+// ===== BUTTON TO SHOW TRACKED DATA =====
+document.getElementById("showData").addEventListener("click", () => {
+  
+  const debug = document.getElementById("debugOutput");
+
+  const output = {
+    viewed_images: viewedImages,
+    clicked_images: clickedImages
+  };
+
+  debug.textContent = JSON.stringify(output, null, 2);
+});
+
