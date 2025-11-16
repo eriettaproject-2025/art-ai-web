@@ -16,19 +16,19 @@ const aiTexts = [
 humanFigures.forEach(fig => {
   const aiDiv = fig.querySelector(".ai-message");
 
-  // Όταν ο χρήστης μπαίνει πάνω στην εικόνα
   fig.addEventListener("mouseenter", () => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
     aiDiv.textContent = randomText;
     aiDiv.classList.remove("hidden");
     aiDiv.classList.add("show"); 
+  });
 
-  // Όταν ο χρήστης φεύγει από πάνω
   fig.addEventListener("mouseleave", () => {
     aiDiv.classList.remove("show");   
     aiDiv.classList.add("hidden");
   });
 });
+
 
 
 
