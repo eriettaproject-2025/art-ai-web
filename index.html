@@ -9,7 +9,7 @@
 <body>
   <div class="container">
     <h1>Ανακάλυψε την Τέχνη</h1>
-    <p>Επίλεξε ποια έργα σε εμπνέουν περισσότερο.</p>
+    <p>Επίλεξε ποια έργα σου αρέσουν περισσότερο.</p>
     
 <div class="gallery">
   <!-- GAN έργα -->
@@ -48,7 +48,6 @@
       <figcaption>Samual Adams</figcaption>
     </figure>
 
-
     <!-- HUMAN έργα -->
     <figure class="art human">
       <img src="./images/HUMAN_Georges_Seurat.jpg" alt="Seurat">
@@ -69,23 +68,13 @@
       <img src="./images/HUMAN_Monet-Camille.jpg" alt="HUMAN_Monet-Camille">
       <figcaption>Camille Monet and a Child in the Artist’s Garden at Argenteuil <span class="ai-message">AI μήνυμα</span> </figcaption>
     </figure>
-    
-  </main>
-</body>
-
-
-
-    <div id="ai-message" class="hidden"></div>
   </div>
 
-
-    
-  <button id="generateArt">Δημιούργησε το δικό μου έργο</button>
-
+  <button id="generateArt">Δημιουργώ το δικό μου έργο</button>
   <canvas id="artCanvas" width="800" height="600"></canvas>
 
 
-<button id="showData" style="margin-top: 40px;">Δείξε μου τα δεδομένα</button>
+<button id="showData" style="margin-top: 40px;">Εμφάνισε τα δεδομένα</button>
 <pre id="debugOutput" style="
   background: #f0f0f0;
   padding: 20px;
@@ -93,7 +82,10 @@
   border-radius: 8px;
   margin-top: 20px;
 "></pre>
-    
-<script src="script.js"></script>  
+
+</div>  
+  
+  <script src="script.js"></script>  
+  
 </body>
 </html>
