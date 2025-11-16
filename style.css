@@ -91,22 +91,24 @@ p {
 }
 
 /* ——— AI AGENT POP-UP ——— */
-#ai-message {
-  position: absolute; /* Για να τοποθετείται πάνω από εικόνες */
-  background: #111;  /* Σκούρο φόντο */
-  color: #f2f2f2;    /* Λευκό/κρεμ χρώμα */
-  padding: 12px 18px;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  opacity: 0.95;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  pointer-events: none;  /* Δεν εμποδίζει hover/click */
-  transition: all 0.3s ease;
-  z-index: 9999;
-  max-width: 200px;
+.art {
+  position: relative; /* απαραίτητο για να είναι το AI μήνυμα απόλυτο μέσα στο figure */
 }
 
-.hidden {
-  display: none;
+.art .ai-message {
+  position: absolute;
+  bottom: 100%; /* πάνω από την εικόνα */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #f2f2f2;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  white-space: nowrap;
+  opacity: 0.95;
+  z-index: 999;
+  transition: opacity 0.3s ease;
 }
 
