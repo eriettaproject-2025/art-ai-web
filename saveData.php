@@ -1,5 +1,6 @@
 <?php
 header("Content-Type: application/json");
+file_put_contents("log.txt", $rawData);
 
 $servername = "localhost";
 $username = "root";
