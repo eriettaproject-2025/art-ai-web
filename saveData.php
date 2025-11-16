@@ -1,26 +1,41 @@
 <?php
-// saveData.php
+header("Content-Type: application/json");
 
-// --- 1. Στοιχεία σύνδεσης στη βάση ---
-$servername = "localhost";  // XAMPP τοπικός server
-$username = "root";         // default user στο XAMPP
-$password = "";             // default κενό password
+$servername = "localhost";
+$username = "root";
+$password = "";
 $dbname = "artDB";
 
-// --- 2. Σύνδεση στη βάση ---
+// Συνδεση στη βάση
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Έλεγχος σύνδεσης
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    echo json_encode(["status" => "error", "message" => "DB Connection failed"]);
+    exit;
 }
 
-// --- 3. Λήψη δεδομένων από JS ---
-$data = file_get_contents("php://input");
+// Λήψη JSON από Javascript
+$rawData = file_get_contents("php://input");
+$data = json_decode($rawData, true);
 
-// --- 4. Προετοιμασία και αποθήκευση στην βάση ---
+// Έλεγχος εγκυρότητας
+if (!$data) {
+    echo json_encode(["status" => "error", "message" => "Invalid JSON"]);
+    exit;
+}
+
+//  τυλίγουμε σε ένα object για να είναι valid JSON
+$final = [
+    "type" => "tracking",
+    "payload" => $data
+];
+
+$json = json_encode($final, JSON_UNESCAPED_UNICODE);
+
+// Εισαγωγή στη βάση
 $stmt = $conn->prepare("INSERT INTO user_data (data) VALUES (?)");
-$stmt->bind_param("s", $data); // "s" = string
+$stmt->bind_param("s", $json);
 
 if ($stmt->execute()) {
     echo json_encode(["status" => "success"]);
