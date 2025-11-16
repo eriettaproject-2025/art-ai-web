@@ -21,12 +21,16 @@ humanFigures.forEach(fig => {
     aiDiv.textContent = randomText;
     aiDiv.classList.remove("hidden");
   });
+  
+   //μικρό animation
+    aiDiv.style.transform = "translateX(-50%) translateY(-10px)";
+  });
 
   fig.addEventListener("mouseleave", () => {
     aiDiv.classList.add("hidden");
+    aiDiv.style.transform = "translateX(-50%) translateY(0)";
   });
 });
-
 
 
 
