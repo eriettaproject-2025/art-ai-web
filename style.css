@@ -84,28 +84,33 @@ p {
 
 /* ——— AI POPUP ——— */
 /* Ομαλό pop-up για AI μήνυμα */
+.art figcaption {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f2f2f2;
+}
+
 .art .ai-message {
-  position: absolute;
-  top: -35px; /* πάνω από την εικόνα */
-  left: 50%;
-  transform: translateX(-50%);
+  display: none; /* κρυφό από default */
   background: #111;
   color: #f2f2f2;
-  padding: 6px 10px;
+  padding: 5px 10px;
   border-radius: 10px;
+  margin-bottom: 5px;
   font-size: 0.85rem;
   white-space: nowrap;
   opacity: 0;
-  z-index: 999;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .art .ai-message.show {
+  display: block;
   opacity: 0.95;
-  transform: translateX(-50%) translateY(-5px); /* μικρή κίνηση πάνω */
 }
+
 
 
 
