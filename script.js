@@ -66,3 +66,53 @@ artImages.forEach(img => {
   });
 
 });
+
+
+
+// ====== 5. Generative Art Button ======
+document.getElementById("generateArt").addEventListener("click", () => {
+  
+  const canvas = document.getElementById("artCanvas");
+  const ctx = canvas.getContext("2d");
+
+  // Καθαρίζουμε ό,τι υπήρχε
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Δημιουργούμε art ανάλογα με τις επιλογές
+  // Π.χ. αν είδες πολλά GAN έργα → πιο «ψηφιακά» patterns
+  // Αν είδες πολλά HUMAN → πιο "ζωγραφικά"
+  
+  const ganScore = viewedImages.filter(v => v.image.includes("GAN")).length +
+                   clickedImages.filter(c => c.includes("GAN")).length;
+
+  const humanScore = viewedImages.filter(v => v.image.includes("HUMAN")).length +
+                     clickedImages.filter(c => c.includes("HUMAN")).length;
+
+  // ======= SIMPLE GENERATIVE ART ENGINE =======
+  for (let i = 0; i < 100; i++) {
+    ctx.beginPath();
+
+    // GAN → Νέον / ψηφιακά χρώματα
+    // HUMAN → παστέλ / φυσικά χρώματα
+    let color;
+
+    if (ganScore > humanScore) {
+      color = `hsl(${Math.random()*360}, 100%, 50%)`;    // έντονα χρώματα
+    } else {
+      color = `hsl(${Math.random()*360}, 40%, 70%)`;      // πιο ήπια χρώματα
+    }
+
+    ctx.fillStyle = color;
+
+    const size = Math.random() * 80;
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+
+    ctx.arc(x, y, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  console.log("Viewed:", viewedImages);
+  console.log("Clicked:", clickedImages);
+
+});
