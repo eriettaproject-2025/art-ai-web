@@ -38,15 +38,14 @@ let hoverStartTime = {};
 const artImages = document.querySelectorAll(".art img");
 
 artImages.forEach(img => {
-  
-  // Hover start
+
   img.addEventListener("mouseenter", () => {
     hoverStartTime[img.src] = Date.now();
   });
 
-  // Hover end
   img.addEventListener("mouseleave", () => {
     const timeSpent = Date.now() - hoverStartTime[img.src];
+
     viewedImages.push({
       image: img.src,
       alt: img.alt,
@@ -54,31 +53,12 @@ artImages.forEach(img => {
     });
   });
 
-  // Click
   img.addEventListener("click", () => {
-    clickedImages.push(img.src);
-
-    // Αποστολή στον server
-    const clickedData = {
-      img: img.src,
+    clickedImages.push({
+      image: img.src,
       alt: img.alt,
       time: new Date().toISOString()
-    };
-
-    fetch('saveData.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(clickedData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if(data.status === 'success') {
-        console.log("Data saved to database!");
-      } else {
-        console.error("Error saving data:", data.message);
-      }
-    })
-    .catch(err => console.error("Fetch error:", err));
+    });
   });
 
 });
@@ -133,9 +113,28 @@ document.getElementById("generateArt").addEventListener("click", () => {
 });
 
 
+// ====== SEND TO SERVER ======
+function sendTrackingData() {
+    const payload = {
+        viewed: viewedImages,
+        clicked: clickedImages
+    };
 
+    fetch("saveData.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("SERVER RESPONSE:", data);
+    })
+    .catch(err => console.error("ERROR:", err));
+}
 
-// ===== BUTTON TO SHOW TRACKED DATA =====
+// =======================
+// 5. DEBUG BUTTON = εμφανίζει και στέλνει δεδομένα
+// =======================
 document.getElementById("showData").addEventListener("click", () => {
   
   const debug = document.getElementById("debugOutput");
@@ -146,5 +145,7 @@ document.getElementById("showData").addEventListener("click", () => {
   };
 
   debug.textContent = JSON.stringify(output, null, 2);
-});
 
+  // Στέλνει τα πάντα στη βάση ΜΙΑ φορά
+  sendTrackingData();
+});
