@@ -1,37 +1,31 @@
 <?php
-header('Content-Type: application/json');
+// saveData.php
 
-// Στοιχεία σύνδεσης στη βάση
-$host = "localhost";
-$user = "root";       // συνήθως default στο XAMPP
-$password = "";       // συνήθως κενό στο XAMPP
+// --- 1. Στοιχεία σύνδεσης στη βάση ---
+$servername = "localhost";  // XAMPP τοπικός server
+$username = "root";         // default user στο XAMPP
+$password = "";             // default κενό password
 $dbname = "artDB";
 
-// Σύνδεση στη βάση
-$conn = new mysqli($host, $user, $password, $dbname);
+// --- 2. Σύνδεση στη βάση ---
+$conn = new mysqli($servername, $username, $password, $dbname);
 
+// Έλεγχος σύνδεσης
 if ($conn->connect_error) {
-    echo json_encode(['status' => 'error', 'message' => $conn->connect_error]);
-    exit;
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Λήψη δεδομένων από το JS
-$data = json_decode(file_get_contents('php://input'), true);
+// --- 3. Λήψη δεδομένων από JS ---
+$data = file_get_contents("php://input");
 
-if(!$data) {
-    echo json_encode(['status' => 'error', 'message' => 'No data received']);
-    exit;
-}
-
-// Προετοιμασμένο statement για ασφαλή εισαγωγή
+// --- 4. Προετοιμασία και αποθήκευση στην βάση ---
 $stmt = $conn->prepare("INSERT INTO user_data (data) VALUES (?)");
-$jsonData = json_encode($data);
-$stmt->bind_param("s", $jsonData);
+$stmt->bind_param("s", $data); // "s" = string
 
-if($stmt->execute()) {
-    echo json_encode(['status' => 'success']);
+if ($stmt->execute()) {
+    echo json_encode(["status" => "success"]);
 } else {
-    echo json_encode(['status' => 'error', 'message' => $stmt->error]);
+    echo json_encode(["status" => "error", "message" => $stmt->error]);
 }
 
 $stmt->close();
