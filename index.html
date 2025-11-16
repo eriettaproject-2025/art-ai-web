@@ -9,83 +9,93 @@
 <body>
   <div class="container">
     <h1>Ανακάλυψε την Τέχνη</h1>
-    <p>Επίλεξε ποια έργα σου αρέσουν περισσότερο.</p>
+    <p> Ποια έργα σε εμπνέουν περισσότερο;</p>
     
-<div class="gallery">
-  <!-- GAN έργα -->
-  <figure class="art gan">
-      <img src="./images/GAN_Becoming_Blue.jpeg" alt="Becoming Blue">
-      <figcaption>Becoming Blue</figcaption>
-    </figure>
+    <div class="gallery">
+      <!-- GAN έργα -->
+      <figure class="art gan">
+        <img src="./images/GAN_Becoming_Blue.jpeg" alt="Becoming Blue">
+        <figcaption>Becoming Blue</figcaption>
+      </figure>
 
-  <figure class="art gan">
-      <img src="./images/GAN_Walking_Dead.jpg" alt="GAN_Walking_Dead">
-      <figcaption>Walking Dead</figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_Walking_Dead.jpg" alt="GAN_Walking_Dead">
+        <figcaption>Walking Dead</figcaption>
+      </figure>
 
-  <figure class="art gan">
-      <img src="./images/GAN_Edmond_de_Belamy.png" alt="GAN_Edmond_de_Belamy">
-      <figcaption>Edmond de Belamy</figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_Edmond_de_Belamy.png" alt="GAN_Edmond_de_Belamy">
+        <figcaption>Edmond de Belamy</figcaption>
+      </figure>
 
-    <figure class="art gan">
-      <img src="./images/GAN_folwers_dancers01.png" alt="GAN_folwers_dancers01">
-      <figcaption>Flowers and Dancers</figcaption>
-    </figure>
-  
-   <figure class="art gan">
-      <img src="./images/GAN_folwers_dancers02.jpeg" alt="GAN_folwers_dancers02">
-      <figcaption>Flowers and Dancers</figcaption>
-    </figure>
-  
-   <figure class="art gan">
-      <img src="./images/GAN_folwers_dancers03.jpeg" alt="GAN_folwers_dancers03">
-      <figcaption>Flowers and Dancers</figcaption>
-    </figure>
-  
-   <figure class="art gan">
-      <img src="./images/GAN_samual-adams.jpeg" alt="GAN_samual-adams">
-      <figcaption>Samual Adams</figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_folwers_dancers01.png" alt="GAN_folwers_dancers01">
+        <figcaption>Flowers and Dancers</figcaption>
+      </figure>
 
-    <!-- HUMAN έργα -->
-    <figure class="art human">
-      <img src="./images/HUMAN_Georges_Seurat.jpg" alt="Seurat">
-      <figcaption>Le Chahut <span class="ai-message">AI μήνυμα</span> </figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_folwers_dancers02.jpeg" alt="GAN_folwers_dancers02">
+        <figcaption>Flowers and Dancers</figcaption>
+      </figure>
 
-    <figure class="art human">
-      <img src="./images/HUMAN_Dante_Gabriel_Rossetti.jpg" alt="Rossetti">
-      <figcaption>Monna Vanna <span class="ai-message">AI μήνυμα</span> </figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_folwers_dancers03.jpeg" alt="GAN_folwers_dancers03">
+        <figcaption>Flowers and Dancers</figcaption>
+      </figure>
 
-    <figure class="art human">
-      <img src="./images/HUMAN_John_Singer_Sargent.jpg" alt="Sargent">
-      <figcaption>Carnation Lily, Lily, Rose <span class="ai-message">AI μήνυμα</span> </figcaption>
-    </figure>
+      <figure class="art gan">
+        <img src="./images/GAN_samual-adams.jpeg" alt="GAN_samual-adams">
+        <figcaption>Samual Adams</figcaption>
+      </figure>
 
-    <figure class="art human">
-      <img src="./images/HUMAN_Monet-Camille.jpg" alt="HUMAN_Monet-Camille">
-      <figcaption>Camille Monet and a Child in the Artist’s Garden at Argenteuil <span class="ai-message">AI μήνυμα</span> </figcaption>
-    </figure>
+      <!-- HUMAN έργα -->
+      <figure class="art human">
+        <img src="./images/HUMAN_Georges_Seurat.jpg" alt="Seurat">
+        <figcaption>
+          Le Chahut 
+          <span class="ai-message"></span>
+        </figcaption>
+      </figure>
+
+      <figure class="art human">
+        <img src="./images/HUMAN_Dante_Gabriel_Rossetti.jpg" alt="Rossetti">
+        <figcaption>
+          Monna Vanna 
+          <span class="ai-message"></span>
+        </figcaption>
+      </figure>
+
+      <figure class="art human">
+        <img src="./images/HUMAN_John_Singer_Sargent.jpg" alt="Sargent">
+        <figcaption>
+          Carnation Lily, Lily, Rose 
+          <span class="ai-message"></span>
+        </figcaption>
+      </figure>
+
+      <figure class="art human">
+        <img src="./images/HUMAN_Monet-Camille.jpg" alt="HUMAN_Monet-Camille">
+        <figcaption>
+          Camille Monet and a Child in the Artist’s Garden at Argenteuil
+          <span class="ai-message"></span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <button id="generateArt" style="margin-top: 40px;">Δημιούργησε το δικό μου έργο</button>
+    <canvas id="artCanvas" width="800" height="600" style="margin-top: 20px;"></canvas>
+
+    <button id="showData" style="margin-top: 40px;">Δείξε μου τα δεδομένα</button>
+    <pre id="debugOutput" style="
+      background: #f0f0f0;
+      padding: 20px;
+      white-space: pre-wrap;
+      border-radius: 8px;
+      margin-top: 20px;
+    "></pre>
+
   </div>
 
-  <button id="generateArt">Δημιουργώ το δικό μου έργο</button>
-  <canvas id="artCanvas" width="800" height="600"></canvas>
-
-
-<button id="showData" style="margin-top: 40px;">Εμφάνισε τα δεδομένα</button>
-<pre id="debugOutput" style="
-  background: #f0f0f0;
-  padding: 20px;
-  white-space: pre-wrap;
-  border-radius: 8px;
-  margin-top: 20px;
-"></pre>
-
-</div>  
-  
-  <script src="script.js"></script>  
-  
+  <script src="script.js"></script>
 </body>
 </html>
