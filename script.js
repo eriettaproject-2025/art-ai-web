@@ -30,42 +30,61 @@ humanFigures.forEach(fig => {
 });
 
 
-// ====== 1. Tracking Storage ======
+// ===== TRACKING =====
 let viewedImages = [];
 let clickedImages = [];
 let hoverStartTime = {};
 
-// ====== 2. Επιλογή όλων των εικόνων ======
 const artImages = document.querySelectorAll(".art img");
 
-// ====== 3. Track Hover (Πλησίασμα) ======
 artImages.forEach(img => {
   
-  // Όταν μπαίνει το ποντίκι πάνω από την εικόνα
+  // Hover start
   img.addEventListener("mouseenter", () => {
     hoverStartTime[img.src] = Date.now();
   });
 
-  // Όταν φεύγει το ποντίκι
+  // Hover end
   img.addEventListener("mouseleave", () => {
     const timeSpent = Date.now() - hoverStartTime[img.src];
-
     viewedImages.push({
       image: img.src,
+      alt: img.alt,
       duration: timeSpent
     });
   });
 
-  // ====== 4. Track Click ======
+  // Click
   img.addEventListener("click", () => {
     clickedImages.push(img.src);
+
+    // Αποστολή στον server
+    const clickedData = {
+      img: img.src,
+      alt: img.alt,
+      time: new Date().toISOString()
+    };
+
+    fetch('saveData.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(clickedData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if(data.status === 'success') {
+        console.log("Data saved to database!");
+      } else {
+        console.error("Error saving data:", data.message);
+      }
+    })
+    .catch(err => console.error("Fetch error:", err));
   });
 
 });
 
 
-
-// ====== 5. Generative Art Button ======
+// ====== Generative Art Button ======
 document.getElementById("generateArt").addEventListener("click", () => {
   
   const canvas = document.getElementById("artCanvas");
