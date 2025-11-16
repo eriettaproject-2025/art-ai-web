@@ -109,6 +109,7 @@ p {
 .art .ai-message.show {
   display: block;
   opacity: 0.95;
+  transform: translateY(0); /* ανεβαίνει στη θέση του */
 }
 
 
