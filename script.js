@@ -1,5 +1,6 @@
+// Μηνύματα που θα εμφανίζει ο "βοηθός" όταν ο χρήστης πλησιάζει εικόνες που βρίσκονται μέσα σε figure class="art human" // 
 const aiMessage = document.getElementById("ai-message");
-const images = document.querySelectorAll(".art");
+const humanFigures = document.querySelectorAll("figure.art.human");
 
 // Μηνύματα που θα εμφανίζει ο "βοηθός"
 const aiTexts = [
