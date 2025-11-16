@@ -29,6 +29,7 @@ letter-spacing: 0.5px;
 .gallery {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+grid-auto-rows: 250px; /* Σταθερό ύψος για κάθε grid item */
 gap: 25px;
 padding: 40px;
 animation: fadeIn 1s ease forwards;
@@ -42,16 +43,19 @@ border-radius: 16px;
 }
 
 .art img {
-width: 100%;
-height: auto;
-display: block;
-transition: transform 0.5s ease, filter 0.5s ease;
-filter: brightness(90%);
+  width: 100%;
+  height: 100%;          /* Κάνει την εικόνα να γεμίζει το container */
+  object-fit: cover;      /* Κόβει και γεμίζει χωρίς παραμόρφωση */
+  display: block;
+  transition: transform 0.5s ease, filter 0.5s ease, box-shadow 0.3s ease;
+  filter: brightness(90%);
+  cursor: pointer;
 }
 
 .art:hover img {
-transform: scale(1.05);
-filter: brightness(110%);
+  transform: scale(1.05);
+  filter: brightness(110%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 /* ——— CAPTION OVERLAY ——— */
