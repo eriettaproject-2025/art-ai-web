@@ -81,7 +81,7 @@ p {
 
 /* ——— AI POPUP ——— */
 .art .ai-message {
-  position: absolute;
+  position: relative;
   bottom: 110%; /* πάνω από την εικόνα */
   left: 50%;
   transform: translateX(-50%);
@@ -100,6 +100,10 @@ p {
 .art .ai-message.show {
   opacity: 0.95;
   transform: translateX(-50%) translateY(-10px);
+}
+
+.hidden {
+  display: none;
 }
 
 /* ——— RESPONSIVE ——— */
