@@ -90,22 +90,23 @@ p {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ——— AI AGENT ——— */
+/* ——— AI AGENT POP-UP ——— */
 #ai-message {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
-  color: #f2f2f2;
-  padding: 15px 20px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  opacity: 0.9;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  transition: opacity 0.3s ease;
+  position: absolute; /* Για να τοποθετείται πάνω από εικόνες */
+  background: #111;  /* Σκούρο φόντο */
+  color: #f2f2f2;    /* Λευκό/κρεμ χρώμα */
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  opacity: 0.95;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  pointer-events: none;  /* Δεν εμποδίζει hover/click */
+  transition: all 0.3s ease;
+  z-index: 9999;
+  max-width: 200px;
 }
 
 .hidden {
   display: none;
 }
+
