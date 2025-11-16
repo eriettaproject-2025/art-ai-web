@@ -26,13 +26,14 @@ p {
   letter-spacing: 0.5px;
 }
 
-/* ——— CREATIVE GRID ——— */
+/* ——— FIXED GRID GALLERY ——— */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 250px); /* 4 στήλες με σταθερό πλάτος */
   grid-auto-rows: 250px; /* σταθερό ύψος για κάθε εικόνα */
   gap: 25px;
   padding: 40px;
+  justify-content: center; /* κεντράρει το grid */
   animation: fadeIn 1s ease forwards;
 }
 
