@@ -13,20 +13,22 @@ const aiTexts = [
 "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
 
-let aiPopup; // To div που θα εμφανίζεται
-
 humanFigures.forEach(fig => {
-const aiSpan = fig.querySelector(".ai-message");
+    const aiSpan = fig.querySelector(".ai-message");
+    if (!aiSpan) {
+        console.warn("Δεν βρέθηκε span για AI μήνυμα στο figure:", fig);
+        return;
+    }
+    
+    fig.addEventListener("mouseenter", () => {
+        const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
+        aiSpan.textContent = randomText;
+        aiSpan.classList.add("show");
+    });
 
-fig.addEventListener("mouseenter", () => {
-const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
-aiSpan.textContent = randomText;
-aiSpan.classList.add("show");
-});
-
-fig.addEventListener("mouseleave", () => {
-aiSpan.classList.remove("show");
-});
+    fig.addEventListener("mouseleave", () => {
+        aiSpan.classList.remove("show");
+    });
 });
 
 
@@ -115,23 +117,23 @@ console.log("Clicked:", clickedImages);
 
 // ====== SEND TO SERVER ======
 function sendTrackingData() {
-const payload = {
-viewed: viewedImages,
-clicked: clickedImages
-};
+    const payload = {
+        viewed: viewedImages,
+        clicked: clickedImages
+    };
 
-    fetch("saveData.php", {
-   fetch('/artProject/saveData.php', {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify(payload)
-})
-.then(res => res.json())
-.then(data => {
-console.log("SERVER RESPONSE:", data);
-})
-.catch(err => console.error("ERROR:", err));
+    fetch('/artProject/saveData.php', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("SERVER RESPONSE:", data);
+    })
+    .catch(err => console.error("ERROR:", err));
 }
+
 
 // =======================
 // 5. DEBUG BUTTON = εμφανίζει και στέλνει δεδομένα
