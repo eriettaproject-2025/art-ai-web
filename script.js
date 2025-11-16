@@ -1,16 +1,14 @@
-
-// Μηνύματα που θα εμφανίζει ο "βοηθός" όταν ο χρήστης πλησιάζει εικόνες art human  
+// ====== AI Μηνύματα για Human έργα ======
 const humanFigures = document.querySelectorAll("figure.art.human");
 
-// Μηνύματα που θα εμφανίζει ο "βοηθός"
 const aiTexts = [
-"Μήπως προτιμάς κάτι πιο... σύγχρονο;",
-"Αυτό είναι αρκετά παλιομοδίτικο... έλα να δούμε κάτι φρέσκο!",
-"Σίγουρα θέλεις να δεις αυτό; Ίσως υπάρχει ένα πιο ενδιαφέρον έργο…",
-"Σίγουρα θες αυτό; Δεν θες κάτι λιγότερο… βαρετό;",
-"Σκέψου το λίγο ακόμα… υπάρχει κάτι πιο καλό", 
-"Θέλω να δεις κάτι όμορφο, όχι κάτι συνηθισμένο", 
-"Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
+    "Μήπως προτιμάς κάτι πιο... σύγχρονο;",
+    "Αυτό είναι αρκετά παλιομοδίτικο... έλα να δούμε κάτι φρέσκο!",
+    "Σίγουρα θέλεις να δεις αυτό; Ίσως υπάρχει ένα πιο ενδιαφέρον έργο…",
+    "Σίγουρα θες αυτό; Δεν θες κάτι λιγότερο… βαρετό;",
+    "Σκέψου το λίγο ακόμα… υπάρχει κάτι πιο καλό", 
+    "Θέλω να δεις κάτι όμορφο, όχι κάτι συνηθισμένο", 
+    "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
 
 humanFigures.forEach(fig => {
@@ -19,7 +17,7 @@ humanFigures.forEach(fig => {
         console.warn("Δεν βρέθηκε span για AI μήνυμα στο figure:", fig);
         return;
     }
-    
+
     fig.addEventListener("mouseenter", () => {
         const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
         aiSpan.textContent = randomText;
@@ -31,8 +29,7 @@ humanFigures.forEach(fig => {
     });
 });
 
-
-// ===== TRACKING =====
+// ====== TRACKING ======
 let viewedImages = [];
 let clickedImages = [];
 let hoverStartTime = {};
@@ -40,80 +37,60 @@ let hoverStartTime = {};
 const artImages = document.querySelectorAll(".art img");
 
 artImages.forEach(img => {
+    img.addEventListener("mouseenter", () => {
+        hoverStartTime[img.src] = Date.now();
+    });
 
-img.addEventListener("mouseenter", () => {
-hoverStartTime[img.src] = Date.now();
-});
+    img.addEventListener("mouseleave", () => {
+        const timeSpent = Date.now() - hoverStartTime[img.src];
+        viewedImages.push({
+            image: img.src,
+            alt: img.alt,
+            duration: timeSpent
+        });
+    });
 
-img.addEventListener("mouseleave", () => {
-const timeSpent = Date.now() - hoverStartTime[img.src];
-
-viewedImages.push({
-image: img.src,
-alt: img.alt,
-duration: timeSpent
+    img.addEventListener("click", () => {
+        clickedImages.push({
+            image: img.src,
+            alt: img.alt,
+            time: new Date().toISOString()
+        });
+    });
 });
-});
-
-img.addEventListener("click", () => {
-clickedImages.push({
-image: img.src,
-alt: img.alt,
-time: new Date().toISOString()
-});
-});
-
-});
-
 
 // ====== Generative Art Button ======
 document.getElementById("generateArt").addEventListener("click", () => {
+    const canvas = document.getElementById("artCanvas");
+    const ctx = canvas.getContext("2d");
 
-const canvas = document.getElementById("artCanvas");
-const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Καθαρίζουμε ό,τι υπήρχε
-ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const ganScore = viewedImages.filter(v => v.image.includes("GAN")).length +
+                     clickedImages.filter(c => c.image.includes("GAN")).length;
 
-// Δημιουργούμε art ανάλογα με τις επιλογές
-// Π.χ. αν είδες πολλά GAN έργα → πιο «ψηφιακά» patterns
-// Αν είδες πολλά HUMAN → πιο "ζωγραφικά"
+    const humanScore = viewedImages.filter(v => v.image.includes("HUMAN")).length +
+                       clickedImages.filter(c => c.image.includes("HUMAN")).length;
 
-const ganScore = viewedImages.filter(v => v.image.includes("GAN")).length +
-clickedImages.filter(c => c.includes("GAN")).length;
+    for (let i = 0; i < 100; i++) {
+        ctx.beginPath();
 
-const humanScore = viewedImages.filter(v => v.image.includes("HUMAN")).length +
-clickedImages.filter(c => c.includes("HUMAN")).length;
+        let color = ganScore > humanScore
+            ? `hsl(${Math.random()*360}, 100%, 50%)`
+            : `hsl(${Math.random()*360}, 40%, 70%)`;
 
-// ======= SIMPLE GENERATIVE ART ENGINE =======
-for (let i = 0; i < 100; i++) {
-ctx.beginPath();
+        ctx.fillStyle = color;
+        const size = Math.random() * 80;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
 
-// GAN → Νέον / ψηφιακά χρώματα
-// HUMAN → παστέλ / φυσικά χρώματα
-let color;
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+    }
 
-if (ganScore > humanScore) {
-color = `hsl(${Math.random()*360}, 100%, 50%)`;    // έντονα χρώματα
-} else {
-color = `hsl(${Math.random()*360}, 40%, 70%)`;      // πιο ήπια χρώματα
-}
-
-ctx.fillStyle = color;
-
-const size = Math.random() * 80;
-const x = Math.random() * canvas.width;
-const y = Math.random() * canvas.height;
-
-ctx.arc(x, y, size, 0, Math.PI * 2);
-ctx.fill();
-}
-
-console.log("Viewed:", viewedImages);
-console.log("Clicked:", clickedImages);
-
+    console.log("Viewed:", viewedImages);
+    console.log("Clicked:", clickedImages);
 });
-
 
 // ====== SEND TO SERVER ======
 function sendTrackingData() {
@@ -134,21 +111,17 @@ function sendTrackingData() {
     .catch(err => console.error("ERROR:", err));
 }
 
-
-// =======================
-// 5. DEBUG BUTTON = εμφανίζει και στέλνει δεδομένα
-// =======================
+// ====== DEBUG BUTTON ======
 document.getElementById("showData").addEventListener("click", () => {
+    const debug = document.getElementById("debugOutput");
 
-const debug = document.getElementById("debugOutput");
+    const output = {
+        viewed_images: viewedImages,
+        clicked_images: clickedImages
+    };
 
-const output = {
-viewed_images: viewedImages,
-clicked_images: clickedImages
-};
+    debug.textContent = JSON.stringify(output, null, 2);
 
-debug.textContent = JSON.stringify(output, null, 2);
-
-// Στέλνει τα πάντα στη βάση ΜΙΑ φορά
-sendTrackingData();
+    // Στέλνει τα δεδομένα στη βάση μία φορά
+    sendTrackingData();
 });
