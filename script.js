@@ -14,23 +14,23 @@ const aiTexts = [
   "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
 
-// Όταν ο χρήστης πλησιάζει ένα <figure class="art human">
 humanFigures.forEach(fig => {
-  fig.addEventListener("mouseenter", () => {
+  const img = fig.querySelector("img"); // <--- Πρέπει να ορίσουμε την εικόνα
 
+  // Όταν ο χρήστης μπαίνει πάνω στο figure
+  fig.addEventListener("mouseenter", () => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
     aiMessage.textContent = randomText;
     aiMessage.classList.remove("hidden");
 
- // Θέση πάνω στην εικόνα
+    // Θέση πάνω στην εικόνα
     const rect = img.getBoundingClientRect();
-    aiMessage.style.top = `${rect.top - 50 + window.scrollY}px`;   // 50px πάνω από εικόνα
+    aiMessage.style.top = `${rect.top - 60 + window.scrollY}px`;   // 60px πάνω από την εικόνα
     aiMessage.style.left = `${rect.left + rect.width / 2}px`;       // στο κέντρο της εικόνας
     aiMessage.style.transform = "translateX(-50%)";
   });
 
-// Όταν ο χρήστης φεύγει από πάνω
-humanFigures.forEach(fig => {
+  // Όταν ο χρήστης φεύγει από πάνω
   fig.addEventListener("mouseleave", () => {
     aiMessage.classList.add("hidden");
   });
