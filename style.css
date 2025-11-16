@@ -84,6 +84,7 @@ p {
 
 /* ——— AI POPUP ——— */
 /* Ομαλό pop-up για AI μήνυμα */
+
 .art figcaption {
   position: relative;
   display: flex;
@@ -109,7 +110,6 @@ p {
 .art .ai-message.show {
   display: block;
   opacity: 0.95;
-  transform: translateY(0); /* ανεβαίνει στη θέση του */
 }
 
 
