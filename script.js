@@ -13,26 +13,24 @@ const aiTexts = [
   "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
 
-// ---- AI εμφανίζεται όταν πλησιάζεις μια εικόνα ----
-images.forEach(img => {
-  img.addEventListener("mouseenter", () => {
+// Όταν ο χρήστης πλησιάζει ένα <figure class="art human">
+humanFigures.forEach(fig => {
+  fig.addEventListener("mouseenter", () => {
 
-    // Τυχαίο μήνυμα
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
     aiMessage.textContent = randomText;
     aiMessage.classList.remove("hidden");
 
-    // Τυχαίο "σπρώξιμο" του χρήστη σε άλλο έργο
-    const randomImg = images[Math.floor(Math.random() * images.length)];
-
-    if (randomImg !== img) {
-      randomImg.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-    }
   });
 });
+
+// Όταν ο χρήστης φεύγει από πάνω
+humanFigures.forEach(fig => {
+  fig.addEventListener("mouseleave", () => {
+    aiMessage.classList.add("hidden");
+  });
+});
+
 
 // ---- AI αντιδρά στο click ----
 images.forEach(img => {
