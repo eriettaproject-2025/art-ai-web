@@ -109,6 +109,7 @@ document.getElementById("generateArt").addEventListener("click", () => {
 
   console.log("Viewed:", viewedImages);
   console.log("Clicked:", clickedImages);
+  console.log("Sending JSON:", clickedData);
 
 });
 
@@ -120,18 +121,22 @@ function sendTrackingData() {
         clicked: clickedImages
     };
 
-   fetch('/artProject/saveData.php', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("SERVER RESPONSE:", data);
-    })
-    .catch(err => console.error("ERROR:", err));
-}
-
+fetch("/artProject/saveData.php", {
+  method: "POST",
+  headers: { "Content-Type": "application/json; charset=utf-8" },
+  body: JSON.stringify(clickedData)
+})
+.then(response => response.text())   // ΔΕΝ ΤΟ ΚΑΝΟΥΜΕ JSON ΑΚΟΜΗ
+.then(text => {
+    console.log("SERVER RAW RESPONSE:", text);
+    try {
+        const json = JSON.parse(text);
+        console.log("PARSED JSON:", json);
+    } catch (e) {
+        console.error("NOT VALID JSON FROM SERVER");
+    }
+})
+.catch(err => console.error("Fetch error:", err));
 // =======================
 // 5. DEBUG BUTTON = εμφανίζει και στέλνει δεδομένα
 // =======================
