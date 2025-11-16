@@ -16,21 +16,23 @@ const aiTexts = [
 humanFigures.forEach(fig => {
   const aiDiv = fig.querySelector(".ai-message");
 
+  // Όταν ο χρήστης μπαίνει πάνω στην εικόνα
   fig.addEventListener("mouseenter", () => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
     aiDiv.textContent = randomText;
     aiDiv.classList.remove("hidden");
-  });
-  
-   //μικρό animation
+
+    // μικρό animation
     aiDiv.style.transform = "translateX(-50%) translateY(-10px)";
   });
 
+  // Όταν ο χρήστης φεύγει από πάνω
   fig.addEventListener("mouseleave", () => {
     aiDiv.classList.add("hidden");
     aiDiv.style.transform = "translateX(-50%) translateY(0)";
   });
 });
+
 
 
 
