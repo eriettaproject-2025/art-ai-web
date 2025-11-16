@@ -1,6 +1,5 @@
 
-// Μηνύματα που θα εμφανίζει ο "βοηθός" όταν ο χρήστης πλησιάζει εικόνες που βρίσκονται μέσα σε figure class="art human"  
-const aiMessage = document.getElementById("ai-message");
+// Μηνύματα που θα εμφανίζει ο "βοηθός" όταν ο χρήστης πλησιάζει εικόνες art human  
 const humanFigures = document.querySelectorAll("figure.art.human");
 
 // Μηνύματα που θα εμφανίζει ο "βοηθός"
@@ -15,24 +14,16 @@ const aiTexts = [
 ];
 
 humanFigures.forEach(fig => {
-  const img = fig.querySelector("img"); // <--- Πρέπει να ορίσουμε την εικόνα
+  const aiDiv = fig.querySelector(".ai-message");
 
-  // Όταν ο χρήστης μπαίνει πάνω στο figure
   fig.addEventListener("mouseenter", () => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
-    aiMessage.textContent = randomText;
-    aiMessage.classList.remove("hidden");
-
-    // Θέση πάνω στην εικόνα
-    const rect = img.getBoundingClientRect();
-    aiMessage.style.top = `${rect.top - 60 + window.scrollY}px`;   // 60px πάνω από την εικόνα
-    aiMessage.style.left = `${rect.left + rect.width / 2}px`;       // στο κέντρο της εικόνας
-    aiMessage.style.transform = "translateX(-50%)";
+    aiDiv.textContent = randomText;
+    aiDiv.classList.remove("hidden");
   });
 
-  // Όταν ο χρήστης φεύγει από πάνω
   fig.addEventListener("mouseleave", () => {
-    aiMessage.classList.add("hidden");
+    aiDiv.classList.add("hidden");
   });
 });
 
