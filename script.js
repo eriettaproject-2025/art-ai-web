@@ -32,13 +32,37 @@ humanFigures.forEach(fig => {
 });
 
 
-// ---- AI αντιδρά στο click ----
-images.forEach(img => {
-  img.addEventListener("click", () => {
-    aiMessage.textContent = "Ενδιαφέρουσα επιλογή... αλλά έχω κάτι καλύτερο!";
 
-    setTimeout(() => {
-      window.location.href = "https://www.midjourney.com/showcase"; 
-    }, 1500);
+
+// ====== 1. Tracking Storage ======
+let viewedImages = [];
+let clickedImages = [];
+let hoverStartTime = {};
+
+// ====== 2. Επιλογή όλων των εικόνων ======
+const artImages = document.querySelectorAll(".art img");
+
+// ====== 3. Track Hover (Πλησίασμα) ======
+artImages.forEach(img => {
+  
+  // Όταν μπαίνει το ποντίκι πάνω από την εικόνα
+  img.addEventListener("mouseenter", () => {
+    hoverStartTime[img.src] = Date.now();
   });
+
+  // Όταν φεύγει το ποντίκι
+  img.addEventListener("mouseleave", () => {
+    const timeSpent = Date.now() - hoverStartTime[img.src];
+
+    viewedImages.push({
+      image: img.src,
+      duration: timeSpent
+    });
+  });
+
+  // ====== 4. Track Click ======
+  img.addEventListener("click", () => {
+    clickedImages.push(img.src);
+  });
+
 });
