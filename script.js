@@ -12,20 +12,43 @@ const aiTexts = [
   "Θέλω να δεις κάτι όμορφο, όχι κάτι συνηθισμένο", 
   "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
+let aiPopup; // To div που θα εμφανίζεται
 
 humanFigures.forEach(fig => {
-  const aiDiv = fig.querySelector(".ai-message");
-
-  fig.addEventListener("mouseenter", () => {
+  fig.addEventListener("mouseenter", (e) => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
-    aiDiv.textContent = randomText;
-    aiDiv.classList.remove("hidden");
-    aiDiv.classList.add("show"); 
+
+    // Δημιουργούμε το popup αν δεν υπάρχει ήδη
+    if (!aiPopup) {
+      aiPopup = document.createElement("div");
+      aiPopup.style.position = "absolute";
+      aiPopup.style.background = "#111";
+      aiPopup.style.color = "#f2f2f2";
+      aiPopup.style.padding = "6px 10px";
+      aiPopup.style.borderRadius = "10px";
+      aiPopup.style.fontSize = "0.85rem";
+      aiPopup.style.whiteSpace = "nowrap";
+      aiPopup.style.opacity = "0";
+      aiPopup.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      aiPopup.style.pointerEvents = "none";
+      aiPopup.style.zIndex = "9999";
+      document.body.appendChild(aiPopup);
+    }
+
+    aiPopup.textContent = randomText;
+
+    // Θέση πάνω από την εικόνα
+    const rect = fig.getBoundingClientRect();
+    aiPopup.style.left = rect.left + rect.width / 2 + "px";
+    aiPopup.style.top = rect.top - 30 + window.scrollY + "px"; // 30px πάνω
+    aiPopup.style.transform = "translateX(-50%) translateY(-5px)";
+    aiPopup.style.opacity = "0.95";
   });
 
   fig.addEventListener("mouseleave", () => {
-    aiDiv.classList.remove("show");   
-    aiDiv.classList.add("hidden");
+    if (aiPopup) {
+      aiPopup.style.opacity = "0";
+    }
   });
 });
 
