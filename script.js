@@ -21,15 +21,12 @@ humanFigures.forEach(fig => {
     const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
     aiDiv.textContent = randomText;
     aiDiv.classList.remove("hidden");
-
-    // μικρό animation
-    aiDiv.style.transform = "translateX(-50%) translateY(-10px)";
-  });
+    aiDiv.classList.add("show"); 
 
   // Όταν ο χρήστης φεύγει από πάνω
   fig.addEventListener("mouseleave", () => {
+    aiDiv.classList.remove("show");   
     aiDiv.classList.add("hidden");
-    aiDiv.style.transform = "translateX(-50%) translateY(0)";
   });
 });
 
