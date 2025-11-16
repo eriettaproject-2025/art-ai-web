@@ -86,9 +86,9 @@ p {
 /* Ομαλό pop-up για AI μήνυμα */
 .art .ai-message {
   position: absolute;
-  bottom: 110%; /* πάνω από την εικόνα */
+  top: -35px; /* πάνω από την εικόνα */
   left: 50%;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%);
   background: #111;
   color: #f2f2f2;
   padding: 6px 10px;
@@ -102,11 +102,11 @@ p {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Όταν εμφανίζεται */
 .art .ai-message.show {
   opacity: 0.95;
-  transform: translateX(-50%) translateY(-10px); /* μικρή κίνηση πάνω */
+  transform: translateX(-50%) translateY(-5px); /* μικρή κίνηση πάνω */
 }
+
 
 
 /* ——— RESPONSIVE ——— */
