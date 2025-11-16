@@ -17,29 +17,17 @@ let aiPopup; // To div που θα εμφανίζεται
 
 humanFigures.forEach(fig => {
   const aiSpan = fig.querySelector(".ai-message");
-  let hoverInterval;
 
   fig.addEventListener("mouseenter", () => {
-    // Εμφάνιση μηνύματος με slide up + fade in
-    const showMessage = () => {
-      const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
-      aiSpan.textContent = randomText;
-      aiSpan.classList.add("show");
-    };
-
-    showMessage(); // πρώτη εμφάνιση αμέσως
-
-    // Αν κρατάει το ποντίκι, αλλάζουμε μήνυμα κάθε 3 δευτερόλεπτα
-    hoverInterval = setInterval(showMessage, 3000);
+    const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
+    aiSpan.textContent = randomText;
+    aiSpan.classList.add("show");
   });
 
   fig.addEventListener("mouseleave", () => {
-    // Απόκρυψη με fade out
     aiSpan.classList.remove("show");
-    clearInterval(hoverInterval);
   });
 });
-
 
 
 // ====== 1. Tracking Storage ======
