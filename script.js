@@ -120,7 +120,7 @@ function sendTrackingData() {
         clicked: clickedImages
     };
 
-    fetch("saveData.php", {
+   fetch('/artProject/saveData.php', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
