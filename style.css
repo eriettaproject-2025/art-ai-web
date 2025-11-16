@@ -112,6 +112,7 @@ p {
   transition: opacity 0.3s ease;
 }
 
-.hidden {
-  display: none;
+.art .ai-message.show {
+  opacity: 0.95;
+  transform: translateX(-50%) translateY(-10px);
 }
