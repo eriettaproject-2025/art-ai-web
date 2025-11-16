@@ -109,8 +109,6 @@ document.getElementById("generateArt").addEventListener("click", () => {
 
   console.log("Viewed:", viewedImages);
   console.log("Clicked:", clickedImages);
-  console.log("Sending JSON:", clickedData);
-
 });
 
 
@@ -124,7 +122,7 @@ function sendTrackingData() {
 fetch("/artProject/saveData.php", {
   method: "POST",
   headers: { "Content-Type": "application/json; charset=utf-8" },
-  body: JSON.stringify(clickedData)
+  body: JSON.stringify(payload)
 })
 .then(response => response.text())   // ΔΕΝ ΤΟ ΚΑΝΟΥΜΕ JSON ΑΚΟΜΗ
 .then(text => {
