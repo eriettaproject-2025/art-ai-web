@@ -1,4 +1,48 @@
-// ====== AI Μηνύματα για Human έργα ======
+// ====== EYE ======
+
+window.addEventListener('DOMContentLoaded', () => {
+  const eye = document.querySelector('.eye');
+  const pupil = document.querySelector('.pupil');
+  const arts = document.querySelectorAll('.art');
+  const radius = 200; // distance from eye center
+
+  // distribute images in a circle
+  arts.forEach((art, i) => {
+    const angle = (i / arts.length) * Math.PI * 2;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+
+    art.style.setProperty('--x', `${x}px`);
+    art.style.setProperty('--y', `${y}px`);
+
+    // random float duration for each art
+    const duration = 5 + Math.random() * 3; // 5-8s
+    art.style.setProperty('--floatDuration', `${duration}s`);
+  });
+
+  // pupil follows mouse
+  document.addEventListener('mousemove', e => {
+    const rect = eye.getBoundingClientRect();
+    const eyeCenterX = rect.left + rect.width / 2;
+    const eyeCenterY = rect.top + rect.height / 2;
+
+    const dx = e.clientX - eyeCenterX;
+    const dy = e.clientY - eyeCenterY;
+
+    const maxMovement = 50; 
+    const distance = Math.min(Math.sqrt(dx*dx + dy*dy), maxMovement);
+
+    const angle = Math.atan2(dy, dx);
+    const x = distance * Math.cos(angle);
+    const y = distance * Math.sin(angle);
+
+    pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+  });
+});
+
+
+
+// ====== AI Μηνύματα για net έργα ======
 const humanFigures = document.querySelectorAll("figure.art.human");
 
 const aiTexts = [
