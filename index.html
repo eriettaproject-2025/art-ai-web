@@ -293,29 +293,38 @@
       </figure>
     </div>
 
-<script>
+    <script>
+const arts = document.querySelectorAll('.gallery.space .art');
 const pupil = document.querySelector('.pupil');
 const eye = document.querySelector('.eye');
 
+const radius = 350; // orbit radius
+const centerX = 0;
+const centerY = 0;
+
+// distribute images in a circle
+arts.forEach((art, i) => {
+  const angle = (i / arts.length) * Math.PI * 2;
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+
+  art.style.setProperty('--x', `${x}px`);
+  art.style.setProperty('--y', `${y}px`);
+});
+
+// eye follows mouse
 document.addEventListener('mousemove', e => {
   const rect = eye.getBoundingClientRect();
   const eyeX = rect.left + rect.width / 2;
   const eyeY = rect.top + rect.height / 2;
 
   const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-  const radius = 25;
+  const max = 25;
 
-  const x = Math.cos(angle) * radius;
-  const y = Math.sin(angle) * radius;
-
-  pupil.style.transform = `translate(${x}px, ${y}px)`;
+  pupil.style.transform = `translate(${Math.cos(angle) * max}px, ${Math.sin(angle) * max}px)`;
 });
 </script>
 
-
-
-
-    
     <button id="generateArt" style="margin-top: 40px;">Δημιούργησε το δικό μου έργο</button>
     <canvas id="artCanvas" width="800" height="600" style="margin-top: 20px;"></canvas>
 
@@ -331,5 +340,6 @@ document.addEventListener('mousemove', e => {
   </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>
