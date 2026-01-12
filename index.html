@@ -298,42 +298,54 @@ const arts = document.querySelectorAll('.gallery.space .art');
 const pupil = document.querySelector('.pupil');
 const eye = document.querySelector('.eye');
 
-const radius = 350; // orbit radius
-const baseRadius = 420;
-const depthRange = 220;
-
-// distribute images in a circle
-arts.forEach((art, i) => {
+// 1. Initial distribution in a 3D circle
+const items = Array.from(arts).map((art, i) => {
   const angle = (i / arts.length) * Math.PI * 2;
-
-  const depth = Math.random(); // 0 → 1
-  const radius = baseRadius + depth * depthRange;
-
+  const radius = 300 + Math.random() * 200; // Distance from center
   const x = Math.cos(angle) * radius;
   const y = Math.sin(angle) * radius;
+  const zOffset = i * 600; // Space them out along the Z axis (depth)
 
-  art.style.setProperty('--x', `${x}px`);
-  art.style.setProperty('--y', `${y}px`);
-  art.style.setProperty('--depth', depth);
+  return { element: art, x, y, zOffset };
 });
 
-// eye follows mouse
+// 2. Scroll Animation Logic
+function updatePositions() {
+  const scrolled = window.scrollY;
+
+  items.forEach((item) => {
+    // Calculate new Z position based on scroll
+    // As you scroll down, z increases, bringing images "closer"
+    const currentZ = -2000 + (scrolled * 1.5) - item.zOffset; 
+    
+    // Fade out images as they get too close or stay too far
+    const opacity = currentZ > 500 ? 0 : currentZ < -1500 ? 0 : 1;
+
+    item.element.style.transform = `
+      translate(calc(-50% + ${item.x}px), calc(-50% + ${item.y}px)) 
+      translateZ(${currentZ}px)
+    `;
+    item.element.style.opacity = opacity;
+    
+    // Hide images that passed behind the "camera"
+    item.element.style.display = currentZ > 600 ? 'none' : 'block';
+  });
+
+  requestAnimationFrame(updatePositions);
+}
+
+window.addEventListener('scroll', updatePositions);
+updatePositions(); // Initial call
+
+// 3. Eye Movement (Keep your existing logic)
 document.addEventListener('mousemove', (e) => {
   const rect = eye.getBoundingClientRect();
-
-  const eyeCenterX = rect.left + rect.width / 2;
-  const eyeCenterY = rect.top + rect.height / 2;
-
-  const dx = e.clientX - eyeCenterX;
-  const dy = e.clientY - eyeCenterY;
-
+  const dx = e.clientX - (rect.left + rect.width / 2);
+  const dy = e.clientY - (rect.top + rect.height / 2);
   const angle = Math.atan2(dy, dx);
-  const maxDistance = 22; // pupil travel radius
-
-  const x = Math.cos(angle) * maxDistance;
-  const y = Math.sin(angle) * maxDistance;
-
-  pupil.style.transform = `translate(${x}px, ${y}px)`;
+  const dist = Math.min(22, Math.hypot(dx, dy) / 10); 
+  
+  pupil.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
 });
 </script>
 
