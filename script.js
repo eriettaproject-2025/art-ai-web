@@ -4,9 +4,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const eye = document.querySelector('.eye');
   const pupil = document.querySelector('.pupil');
   const arts = document.querySelectorAll('.art');
-  
-  const baseRadius = 300; // increase distance
-const radiusVariation = 50; // optional randomness
+  const radius = 300;
 
   // distribute images in a circle
   arts.forEach((art, i) => {
