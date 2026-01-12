@@ -297,6 +297,16 @@
 const eye = document.querySelector('.eye');
 const pupil = document.querySelector('.pupil');
 
+// distribute images in a circle
+arts.forEach((art, i) => {
+  const angle = (i / arts.length) * Math.PI * 2;
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+
+  art.style.setProperty('--x', `${x}px`);
+  art.style.setProperty('--y', `${y}px`);
+});
+      
 document.addEventListener('mousemove', e => {
   const rect = eye.getBoundingClientRect();
   const eyeCenterX = rect.left + rect.width / 2;
