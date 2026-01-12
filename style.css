@@ -192,3 +192,12 @@ p {
   filter: blur(calc((1 - var(--depth)) * 1.5px));
 }
 
+
+.art:hover {
+  z-index: 10;
+  transform:
+    translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+    scale(1.25);
+  filter: blur(0);
+}
+
