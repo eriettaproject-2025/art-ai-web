@@ -294,46 +294,28 @@
     </div>
 
     <script>
-const arts = document.querySelectorAll('.gallery.space .art');
-const pupil = document.querySelector('.pupil');
 const eye = document.querySelector('.eye');
+const pupil = document.querySelector('.pupil');
 
-const radius = 350; // orbit radius
-const baseRadius = 420;
-const depthRange = 220;
-
-// distribute images in a circle
-arts.forEach((art, i) => {
-  const angle = (i / arts.length) * Math.PI * 2;
-
-  const depth = Math.random(); // 0 → 1
-  const radius = baseRadius + depth * depthRange;
-
-  const x = Math.cos(angle) * radius;
-  const y = Math.sin(angle) * radius;
-
-  art.style.setProperty('--x', `${x}px`);
-  art.style.setProperty('--y', `${y}px`);
-  art.style.setProperty('--depth', depth);
-});
-
-// eye follows mouse
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('mousemove', e => {
   const rect = eye.getBoundingClientRect();
-
   const eyeCenterX = rect.left + rect.width / 2;
   const eyeCenterY = rect.top + rect.height / 2;
 
+  // Calculate angle and distance from eye center
   const dx = e.clientX - eyeCenterX;
   const dy = e.clientY - eyeCenterY;
 
+  // Limit pupil movement within the eye
+  const maxMovement = 50; // max px the pupil can move
+  const distance = Math.min(Math.sqrt(dx*dx + dy*dy), maxMovement);
+
+  // Calculate new pupil position
   const angle = Math.atan2(dy, dx);
-  const maxDistance = 22; // pupil travel radius
+  const x = distance * Math.cos(angle);
+  const y = distance * Math.sin(angle);
 
-  const x = Math.cos(angle) * maxDistance;
-  const y = Math.sin(angle) * maxDistance;
-
-  pupil.style.transform = `translate(${x}px, ${y}px)`;
+  pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
 });
 </script>
 
