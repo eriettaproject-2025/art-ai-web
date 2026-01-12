@@ -109,30 +109,28 @@ p {
 
 
 /* ——— SPACE SCENE ——— */
-.gallery.scrollable {
+.gallery.space {
   position: relative;
   width: 100vw;
   height: 100vh;
-  overflow-y: scroll; /* allows scrolling */
-  perspective: 1200px;
   background: radial-gradient(circle at center, #111 0%, #000 70%);
+  overflow: hidden;
 }
 
 
 /* ——— FLOATING ART ——— */
 .art {
-  position: relative; /* relative to scroll container */
-  margin: 80px auto; /* vertical spacing */
-  width: 220px;
-  transition: transform 0.6s ease, filter 0.6s ease, z-index 0.2s;
-  filter: brightness(95%) blur(0);
-  z-index: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)));
+  animation: float 6s ease-in-out infinite;
 }
 
 .art img {
-  width: 100%;
+  width: 220px;
   border-radius: 6px;
-  display: block;
+  filter: brightness(95%);
 }
 
 /* subtle variation */
