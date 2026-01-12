@@ -36,25 +36,6 @@ p {
   margin-bottom: 120px;
 }
 
-/* ——— UNSEEN-STYLE EDITORIAL FLOW ——— */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 120px;
-  padding: 0 8vw 160px;
-}
-
-/* ——— ART BLOCK ——— */
-.art {
-  position: relative;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  opacity: 0;
-  transform: translateY(40px);
-  animation: reveal 1.1s ease forwards;
-}
-
 /* alternating visual rhythm */
 .art:nth-child(even) {
   max-width: 900px;
@@ -98,13 +79,7 @@ p {
   border: 1px solid rgba(255, 136, 68, 0.35);
 }
 
-/* ——— FADE-IN ANIMATION ——— */
-@keyframes reveal {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
 
 /* ——— RESPONSIVE ——— */
 @media (max-width: 900px) {
@@ -141,6 +116,7 @@ p {
   background: radial-gradient(circle at center, #111 0%, #000 70%);
   overflow: hidden;
 }
+
 
 /* ——— FLOATING ART ——— */
 .art {
@@ -193,3 +169,15 @@ p {
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
+
+
+/* ——— SPACE FIXES ——— */
+.gallery.space .art {
+  opacity: 1;
+}
+
+.art {
+  --x: 0px;
+  --y: 0px;
+}
+
