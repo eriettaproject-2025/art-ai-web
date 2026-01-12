@@ -293,45 +293,6 @@
       </figure>
     </div>
 
-    <script>
-window.addEventListener('DOMContentLoaded', () => {
-  const eye = document.querySelector('.eye');
-  const pupil = document.querySelector('.pupil');
-  const arts = document.querySelectorAll('.art');
-  const radius = 200; // distance from eye center
-
-// distribute images in a circle
-arts.forEach((art, i) => {
-  const angle = (i / arts.length) * Math.PI * 2;
-  const x = Math.cos(angle) * radius;
-  const y = Math.sin(angle) * radius;
-
-  art.style.setProperty('--x', `${x}px`);
-  art.style.setProperty('--y', `${y}px`);
-});
-      
-document.addEventListener('mousemove', e => {
-  const rect = eye.getBoundingClientRect();
-  const eyeCenterX = rect.left + rect.width / 2;
-  const eyeCenterY = rect.top + rect.height / 2;
-
-  // Calculate angle and distance from eye center
-  const dx = e.clientX - eyeCenterX;
-  const dy = e.clientY - eyeCenterY;
-
-  // Limit pupil movement within the eye
-  const maxMovement = 50; // max px the pupil can move
-  const distance = Math.min(Math.sqrt(dx*dx + dy*dy), maxMovement);
-
-  // Calculate new pupil position
-  const angle = Math.atan2(dy, dx);
-  const x = distance * Math.cos(angle);
-  const y = distance * Math.sin(angle);
-
-  pupil.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-});
-</script>
-
     <button id="generateArt" style="margin-top: 40px;">Δημιούργησε το δικό μου έργο</button>
     <canvas id="artCanvas" width="800" height="600" style="margin-top: 20px;"></canvas>
 
