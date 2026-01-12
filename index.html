@@ -293,7 +293,29 @@
       </figure>
     </div>
 
+<script>
+const pupil = document.querySelector('.pupil');
+const eye = document.querySelector('.eye');
 
+document.addEventListener('mousemove', e => {
+  const rect = eye.getBoundingClientRect();
+  const eyeX = rect.left + rect.width / 2;
+  const eyeY = rect.top + rect.height / 2;
+
+  const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+  const radius = 25;
+
+  const x = Math.cos(angle) * radius;
+  const y = Math.sin(angle) * radius;
+
+  pupil.style.transform = `translate(${x}px, ${y}px)`;
+});
+</script>
+
+
+
+
+    
     <button id="generateArt" style="margin-top: 40px;">Δημιούργησε το δικό μου έργο</button>
     <canvas id="artCanvas" width="800" height="600" style="margin-top: 20px;"></canvas>
 
