@@ -176,7 +176,15 @@ p {
   transition: transform 0.05s ease-out; /* smooth movement */
 }
 
-
+.art {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  transform: translate(var(--x, 0), var(--y, 0));
+  transition: transform 0.3s ease;
+  border-radius: 10px;
+  object-fit: cover;
+}
 
 /* ——— SPACE FIXES ——— */
 .gallery.space .art {
