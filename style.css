@@ -1,4 +1,4 @@
-/* ——— RESET / BASE ——— */
+ /* ——— RESET / BASE ——— */
 * {
   box-sizing: border-box;
 }
@@ -112,22 +112,21 @@ p {
 .gallery.scrollable {
   position: relative;
   width: 100vw;
-  height: 500vh; /* Make this very tall to allow for a long scroll experience */
-  perspective: 1000px;
-  perspective-origin: 50% 50%;
+  height: 100vh;
+  overflow-y: scroll; /* allows scrolling */
+  perspective: 1200px;
   background: radial-gradient(circle at center, #111 0%, #000 70%);
-  overflow-x: hidden;
 }
 
 
 /* ——— FLOATING ART ——— */
 .art {
-  position: fixed; /* Fixed so we can control movement via JS scroll */
-  left: 50%;
-  top: 50%;
-  margin: 0;
-  z-index: 2; /* In front of the eye */
-  will-change: transform, opacity;
+  position: relative; /* relative to scroll container */
+  margin: 80px auto; /* vertical spacing */
+  width: 220px;
+  transition: transform 0.6s ease, filter 0.6s ease, z-index 0.2s;
+  filter: brightness(95%) blur(0);
+  z-index: 1;
 }
 
 .art img {
@@ -153,11 +152,13 @@ p {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 200px; /* Slightly larger for impact */
-  height: 200px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #222 30%, #000 70%);
   transform: translate(-50%, -50%);
-  z-index: 1; /* Keep it behind the images */
-  pointer-events: none; /* Allows you to click images 'through' the eye area */
+  z-index: 1000; /* above images */
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
 }
 
 .pupil {
@@ -201,4 +202,3 @@ p {
     scale(1.25);
   filter: blur(0);
 }
-
