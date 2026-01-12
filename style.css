@@ -1,4 +1,4 @@
- /* ——— RESET / BASE ——— */
+/* ——— RESET / BASE ——— */
 * {
   box-sizing: border-box;
 }
@@ -36,78 +36,6 @@ p {
   margin-bottom: 120px;
 }
 
-/* alternating visual rhythm */
-.art:nth-child(even) {
-  max-width: 900px;
-}
-
-/* ——— IMAGE ——— */
-.art img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover;
-  filter: brightness(95%);
-  transition: transform 0.6s ease, filter 0.6s ease;
-}
-
-.art:hover img {
-  transform: scale(1.03);
-  filter: brightness(108%);
-}
-
-/* ——— CAPTION (EDITORIAL, BELOW IMAGE) ——— */
-.art figcaption {
-  margin-top: 14px;
-  font-size: 0.75rem;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #999;
-}
-
-/* ——— REMOVE LINK STYLES ——— */
-.art a {
-  display: block;
-}
-
-/* ——— GAN vs NET ——— */
-.gan img {
-  border: 1px solid rgba(68, 68, 255, 0.35);
-}
-
-.net img {
-  border: 1px solid rgba(255, 136, 68, 0.35);
-}
-
-
-
-/* ——— RESPONSIVE ——— */
-@media (max-width: 900px) {
-  .gallery {
-    gap: 90px;
-    padding: 0 6vw 120px;
-  }
-
-  h1 {
-    padding-top: 70px;
-  }
-
-  p {
-    margin-bottom: 80px;
-  }
-}
-
-@media (max-width: 600px) {
-  .gallery {
-    gap: 70px;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-}
-
-
 /* ——— SPACE SCENE ——— */
 .gallery.space {
   position: relative;
@@ -115,34 +43,6 @@ p {
   height: 100vh;
   background: radial-gradient(circle at center, #111 0%, #000 70%);
   overflow: hidden;
-}
-
-
-/* ——— FLOATING ART ——— */
-.art {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)));
-  animation: float 6s ease-in-out infinite;
-}
-
-.art img {
-  width: 220px;
-  border-radius: 6px;
-  filter: brightness(95%);
-}
-
-/* subtle variation */
-.art:nth-child(even) {
-  animation-duration: 8s;
-}
-
-/* ——— FLOAT ANIMATION ——— */
-@keyframes float {
-  0%   { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) translateY(0); }
-  50%  { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) translateY(-15px); }
-  100% { transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) translateY(0); }
 }
 
 /* ——— CENTRAL EYE ——— */
@@ -163,7 +63,7 @@ p {
   overflow: hidden;
 }
 
-/* ——— PUPIL/IRIS ——— */
+/* ——— PUPIL ——— */
 .pupil {
   position: absolute;
   left: 50%;
@@ -173,45 +73,48 @@ p {
   background: radial-gradient(circle at 30% 30%, #000 0%, #111 70%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 0.05s ease-out; /* smooth movement */
+  transition: transform 0.05s ease-out;
 }
 
+/* ——— ART IMAGES ——— */
 .art {
   position: absolute;
-  width: 60px;
-  height: 60px;
-  transform: translate(var(--x, 0), var(--y, 0));
-  transition: transform 0.3s ease;
-  border-radius: 10px;
+  left: 50%;
+  top: 50%;
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
   object-fit: cover;
-}
-
-/* ——— SPACE FIXES ——— */
-.gallery.space .art {
- perspective: 1200px;
-}
-
-.art {
-  transition:
-    transform 0.6s ease,
-    filter 0.6s ease,
-    z-index 0.2s;
+  transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) translateY(var(--floatY, 0));
+  transition: transform 0.3s ease, filter 0.3s ease;
   z-index: 1;
 }
 
-/* depth-based appearance */
-.art {
-  transform:
-    translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
-    scale(calc(0.6 + var(--depth) * 0.6));
-  filter: blur(calc((1 - var(--depth)) * 1.5px));
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  filter: brightness(95%);
 }
 
-
-.art:hover {
+.art:hover img {
+  transform: scale(1.05);
+  filter: brightness(110%);
   z-index: 10;
-  transform:
-    translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
-    scale(1.25);
-  filter: blur(0);
+}
+
+/* ——— FLOAT ANIMATION ——— */
+@keyframes float {
+  0%   { --floatY: 0px; }
+  50%  { --floatY: -15px; }
+  100% { --floatY: 0px; }
+}
+
+.art {
+  animation: float 6s ease-in-out infinite;
+}
+
+.art:nth-child(even) {
+  animation-duration: 8s;
 }
