@@ -1,4 +1,8 @@
-/* ——— BASIC THEME ——— */
+/* ——— RESET / BASE ——— */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -7,12 +11,17 @@ body {
   overflow-x: hidden;
 }
 
-header {
-  text-align: center;
-  padding: 60px 20px 20px;
+/* ——— CONTAINER ——— */
+.container {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
+/* ——— HEADER TEXT ——— */
 h1 {
+  text-align: center;
+  padding-top: 100px;
   font-size: 2rem;
   font-weight: 500;
   letter-spacing: 1px;
@@ -20,117 +29,105 @@ h1 {
 }
 
 p {
-  color: #ccc;
+  text-align: center;
+  color: #aaa;
   font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  margin-bottom: 120px;
 }
 
-/* ——— CREATIVE GRID ——— */
+/* ——— UNSEEN-STYLE EDITORIAL FLOW ——— */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
-  padding: 40px;
-  animation: fadeIn 1s ease forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 120px;
+  padding: 0 8vw 160px;
 }
 
-/* ——— IMAGE FIGURES ——— */
-.hidden {
-  display: none;
-}
+/* ——— ART BLOCK ——— */
 .art {
   position: relative;
-  overflow: hidden;
-  border-radius: 16px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: reveal 1.1s ease forwards;
 }
 
+/* alternating visual rhythm */
+.art:nth-child(even) {
+  max-width: 900px;
+}
+
+/* ——— IMAGE ——— */
 .art img {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.5s ease, filter 0.5s ease;
-  filter: brightness(90%);
+  object-fit: cover;
+  filter: brightness(95%);
+  transition: transform 0.6s ease, filter 0.6s ease;
 }
 
 .art:hover img {
-  transform: scale(1.05);
-  filter: brightness(110%);
+  transform: scale(1.03);
+  filter: brightness(108%);
 }
 
-/* ——— CAPTION OVERLAY ——— */
+/* ——— CAPTION (EDITORIAL, BELOW IMAGE) ——— */
 .art figcaption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 12px 14px;
-  font-size: 0.85rem;
-  background: rgba(0,0,0,0.6);
-  color: #f2f2f2;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
-  pointer-events: none;
+  margin-top: 14px;
+  font-size: 0.75rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #999;
 }
 
-.art:hover figcaption {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ——— GAN vs HUMAN BORDER ——— */
-.gan img { border: 2px solid rgba(68,68,255,0.27); }
-.human img { border: 2px solid rgba(255,136,68,0.27); }
-
-/* ——— AI POPUP ——— */
-/* Ομαλό pop-up για AI μήνυμα */
-
-.art figcaption {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #f2f2f2;
-}
-
-.art .ai-message {
-  display: none; /* κρυφό από default */
-  background: #111;
-  color: #f2f2f2;
-  padding: 5px 10px;
-  border-radius: 10px;
-  margin-bottom: 5px;
-  font-size: 0.85rem;
-  white-space: normal;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.art .ai-message.show {
+/* ——— REMOVE LINK STYLES ——— */
+.art a {
   display: block;
-  opacity: 0.95;
 }
 
+/* ——— GAN vs NET ——— */
+.gan img {
+  border: 1px solid rgba(68, 68, 255, 0.35);
+}
 
+.net img {
+  border: 1px solid rgba(255, 136, 68, 0.35);
+}
 
+/* ——— FADE-IN ANIMATION ——— */
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* ——— RESPONSIVE ——— */
-@media (max-width: 1000px) {
-  .gallery { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+@media (max-width: 900px) {
+  .gallery {
+    gap: 90px;
+    padding: 0 6vw 120px;
+  }
+
+  h1 {
+    padding-top: 70px;
+  }
+
+  p {
+    margin-bottom: 80px;
+  }
 }
 
-@media (max-width: 700px) {
-  .gallery { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-}
+@media (max-width: 600px) {
+  .gallery {
+    gap: 70px;
+  }
 
-@media (max-width: 480px) {
-  .gallery { grid-template-columns: 1fr; }
-}
-
-/* ——— FADE IN ANIMATION ——— */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  h1 {
+    font-size: 1.5rem;
+  }
 }
