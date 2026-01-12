@@ -173,11 +173,22 @@ p {
 
 /* ——— SPACE FIXES ——— */
 .gallery.space .art {
-  opacity: 1;
+ perspective: 1200px;
 }
 
 .art {
-  --x: 0px;
-  --y: 0px;
+  transition:
+    transform 0.6s ease,
+    filter 0.6s ease,
+    z-index 0.2s;
+  z-index: 1;
+}
+
+/* depth-based appearance */
+.art {
+  transform:
+    translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+    scale(calc(0.6 + var(--depth) * 0.6));
+  filter: blur(calc((1 - var(--depth)) * 1.5px));
 }
 
