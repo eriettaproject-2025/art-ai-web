@@ -43,35 +43,52 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 // ====== AI Μηνύματα για net έργα ======
-const humanFigures = document.querySelectorAll("figure.art.human");
-
 const aiTexts = [
-    "Μήπως προτιμάς κάτι πιο... σύγχρονο;",
-    "Αυτό είναι αρκετά παλιομοδίτικο... έλα να δούμε κάτι φρέσκο!",
-    "Σίγουρα θέλεις να δεις αυτό; Ίσως υπάρχει ένα πιο ενδιαφέρον έργο…",
-    "Σίγουρα θες αυτό; Δεν θες κάτι λιγότερο… βαρετό;",
-    "Σκέψου το λίγο ακόμα… υπάρχει κάτι πιο καλό", 
-    "Θέλω να δεις κάτι όμορφο, όχι κάτι συνηθισμένο", 
-    "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
+  "Μήπως προτιμάς κάτι πιο... σύγχρονο;",
+  "Αυτό είναι αρκετά παλιομοδίτικο... έλα να δούμε κάτι φρέσκο!",
+  "Σίγουρα θέλεις να δεις αυτό; Ίσως υπάρχει ένα πιο ενδιαφέρον έργο…",
+  "Σίγουρα θες αυτό; Δεν θες κάτι λιγότερο… βαρετό;",
+  "Σκέψου το λίγο ακόμα… υπάρχει κάτι πιο καλό",
+  "Θέλω να δεις κάτι όμορφο, όχι κάτι συνηθισμένο",
+  "Αν θες να σε καθοδηγήσω, έχω μια καλύτερη ιδέα."
 ];
 
-humanFigures.forEach(fig => {
-    const aiSpan = fig.querySelector(".ai-message");
-    if (!aiSpan) {
-        console.warn("Δεν βρέθηκε span για AI μήνυμα στο figure:", fig);
-        return;
+const netFigures = document.querySelectorAll(".art.NET");
+const eyeAI = document.getElementById("eyeAI");
+const PROXIMITY_DISTANCE = 120;
+
+let aiVisible = false;
+
+document.addEventListener("mousemove", (e) => {
+  let nearNetArt = false;
+
+  netFigures.forEach(fig => {
+    const rect = fig.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const dx = e.clientX - centerX;
+    const dy = e.clientY - centerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < PROXIMITY_DISTANCE) {
+      nearNetArt = true;
     }
+  });
 
-    fig.addEventListener("mouseenter", () => {
-        const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
-        aiSpan.textContent = randomText;
-        aiSpan.classList.add("show");
-    });
+  if (nearNetArt && !aiVisible) {
+    const randomText = aiTexts[Math.floor(Math.random() * aiTexts.length)];
+    eyeAI.textContent = randomText;
+    eyeAI.classList.add("show");
+    aiVisible = true;
+  }
 
-    fig.addEventListener("mouseleave", () => {
-        aiSpan.classList.remove("show");
-    });
+  if (!nearNetArt && aiVisible) {
+    eyeAI.classList.remove("show");
+    aiVisible = false;
+  }
 });
+
 
 // ====== TRACKING ======
 let viewedImages = [];
