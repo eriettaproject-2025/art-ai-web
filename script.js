@@ -122,36 +122,73 @@ artImages.forEach(img => {
 
 // ====== Generative Art Button ======
 document.getElementById("generateArt").addEventListener("click", () => {
-    const canvas = document.getElementById("artCanvas");
-    const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("artCanvas");
+  const ctx = canvas.getContext("2d");
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = "lighter";
 
-    const ganScore = viewedImages.filter(v => v.image.includes("GAN")).length +
-                     clickedImages.filter(c => c.image.includes("GAN")).length;
+  const eye = document.querySelector(".eye");
+  const arts = document.querySelectorAll(".art");
 
-    const humanScore = viewedImages.filter(v => v.image.includes("HUMAN")).length +
-                       clickedImages.filter(c => c.image.includes("HUMAN")).length;
+  const canvasRect = canvas.getBoundingClientRect();
+  const eyeRect = eye.getBoundingClientRect();
 
-    for (let i = 0; i < 100; i++) {
-        ctx.beginPath();
+  // Eye center relative to canvas
+  const cx = eyeRect.left + eyeRect.width / 2 - canvasRect.left;
+  const cy = eyeRect.top + eyeRect.height / 2 - canvasRect.top;
 
-        let color = ganScore > humanScore
-            ? `hsl(${Math.random()*360}, 100%, 50%)`
-            : `hsl(${Math.random()*360}, 40%, 70%)`;
+  // Count bias
+  const ganCount = document.querySelectorAll(".art.GAN").length;
+  const netCount = document.querySelectorAll(".art.NET").length;
 
-        ctx.fillStyle = color;
-        const size = Math.random() * 80;
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
+  const bias = ganCount / (ganCount + netCount); // 0–1
 
-        ctx.arc(x, y, size, 0, Math.PI * 2);
-        ctx.fill();
-    }
+  let steps = 0;
+  const maxSteps = 160;
 
-    console.log("Viewed:", viewedImages);
-    console.log("Clicked:", clickedImages);
+  function drawStep() {
+    if (steps > maxSteps) return;
+
+    const art = arts[Math.floor(Math.random() * arts.length)];
+    const isGAN = art.classList.contains("GAN");
+
+    const angle = Math.random() * Math.PI * 2;
+
+    // GAN pulled inward, NET pushed outward
+    const baseRadius = isGAN
+      ? 80 + Math.random() * 120
+      : 200 + Math.random() * 220;
+
+    // AI exaggerates GAN preference
+    const radius = baseRadius * (isGAN ? 0.8 : 1.1);
+
+    const x = cx + Math.cos(angle) * radius;
+    const y = cy + Math.sin(angle) * radius;
+
+    const hue = isGAN
+      ? 0 + Math.random() * 30      // reds
+      : 200 + Math.random() * 60;   // blues
+
+    ctx.beginPath();
+    ctx.strokeStyle = `hsla(${hue}, 80%, 60%, ${isGAN ? 0.8 : 0.35})`;
+    ctx.lineWidth = isGAN ? 2.5 : 1;
+
+    // Partial orbit = control / instability
+    const arcLength = isGAN
+      ? Math.PI * 1.2
+      : Math.PI * Math.random();
+
+    ctx.arc(x, y, radius * 0.3, 0, arcLength);
+    ctx.stroke();
+
+    steps++;
+    requestAnimationFrame(drawStep);
+  }
+
+  drawStep();
 });
+
 
 // ====== SEND TO SERVER ======
 function sendTrackingData() {
