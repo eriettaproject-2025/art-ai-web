@@ -115,3 +115,26 @@ p {
   100% { --floatY: 0px; }
 }
 
+
+/* ——— AI TEXT——— */
+
+.eye-ai-message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -140px); /* ABOVE the eye */
+  max-width: 320px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ff6666;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1100;
+  text-shadow: 0 0 10px rgba(255, 80, 80, 0.4);
+}
+
+.eye-ai-message.show {
+  opacity: 1;
+  transform: translate(-50%, -160px); /* subtle rise */
+}
