@@ -138,3 +138,51 @@ p {
   opacity: 1;
   transform: translate(-50%, -160px); /* subtle rise */
 }
+
+
+/* ——— ART REVEAL——— */
+
+.art-result {
+  margin: 80px auto;
+  max-width: 900px;
+  padding: 40px;
+  background: radial-gradient(circle at center, #111, #000);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  box-shadow: 0 0 60px rgba(255,0,0,0.15);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.art-result h2 {
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.art-result canvas {
+  background: #000;
+  border-radius: 12px;
+}
+
+.ai-verdict {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+  opacity: 0.8;
+}
+
+/* Reveal state */
+.art-result.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hidden by default */
+.hidden {
+  pointer-events: none;
+}
+
