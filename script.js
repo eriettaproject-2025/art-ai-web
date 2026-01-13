@@ -122,8 +122,9 @@ artImages.forEach(img => {
 
 // ====== Generative Art Button ======
 document.getElementById("generateArt").addEventListener("click", () => {
-  const canvas = document.getElementById("artCanvas");
-  const ctx = canvas.getContext("2d");
+  const resultBox = document.getElementById("artResult");
+  resultBox.classList.add("show");
+  resultBox.classList.remove("hidden");
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalCompositeOperation = "lighter";
