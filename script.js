@@ -121,10 +121,15 @@ artImages.forEach(img => {
 });
 
 // ====== Generative Art Button ======
+// ====== Generative Art Button ======
 document.getElementById("generateArt").addEventListener("click", () => {
   const resultBox = document.getElementById("artResult");
   resultBox.classList.add("show");
   resultBox.classList.remove("hidden");
+
+  // ===== Canvas & Context =====
+  const canvas = document.getElementById("artCanvas");
+  const ctx = canvas.getContext("2d");
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalCompositeOperation = "lighter";
@@ -138,12 +143,6 @@ document.getElementById("generateArt").addEventListener("click", () => {
   // Eye center relative to canvas
   const cx = eyeRect.left + eyeRect.width / 2 - canvasRect.left;
   const cy = eyeRect.top + eyeRect.height / 2 - canvasRect.top;
-
-  // Count bias
-  const ganCount = document.querySelectorAll(".art.GAN").length;
-  const netCount = document.querySelectorAll(".art.NET").length;
-
-  const bias = ganCount / (ganCount + netCount); // 0–1
 
   let steps = 0;
   const maxSteps = 160;
@@ -161,24 +160,18 @@ document.getElementById("generateArt").addEventListener("click", () => {
       ? 80 + Math.random() * 120
       : 200 + Math.random() * 220;
 
-    // AI exaggerates GAN preference
     const radius = baseRadius * (isGAN ? 0.8 : 1.1);
 
     const x = cx + Math.cos(angle) * radius;
     const y = cy + Math.sin(angle) * radius;
 
-    const hue = isGAN
-      ? 0 + Math.random() * 30      // reds
-      : 200 + Math.random() * 60;   // blues
+    const hue = isGAN ? 0 + Math.random() * 30 : 200 + Math.random() * 60;
 
     ctx.beginPath();
     ctx.strokeStyle = `hsla(${hue}, 80%, 60%, ${isGAN ? 0.8 : 0.35})`;
     ctx.lineWidth = isGAN ? 2.5 : 1;
 
-    // Partial orbit = control / instability
-    const arcLength = isGAN
-      ? Math.PI * 1.2
-      : Math.PI * Math.random();
+    const arcLength = isGAN ? Math.PI * 1.2 : Math.PI * Math.random();
 
     ctx.arc(x, y, radius * 0.3, 0, arcLength);
     ctx.stroke();
@@ -189,6 +182,7 @@ document.getElementById("generateArt").addEventListener("click", () => {
 
   drawStep();
 });
+
 
 
 // ====== SEND TO SERVER ======
