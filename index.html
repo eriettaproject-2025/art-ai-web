@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
 <meta charset="UTF-8">
-<title> ANAΚΑΛΥΨΕ ΤΗΝ ΤΕΧΝH </title>
+<title>EYE-9000 | ANAΚΑΛΥΨΕ ΤΗΝ ΤΕΧΝH</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   html, body { margin: 0; width: 100%; height: 100%; background: black; overflow: hidden; }
@@ -13,7 +13,7 @@
     background: black; color: #ff0000; z-index: 1000;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     font-family: 'Share Tech Mono', monospace; cursor: pointer;
-    font-size: 24px; letter-spacing: 5px; text-transform: uppercase;
+    font-size: 24px; letter-spacing: 5px; text-transform: uppercase; text-align: center;
   }
 
   #hal-dialogue {
@@ -46,7 +46,11 @@
     padding: 15px 30px; color: #ff0000; text-decoration: none; 
     font-family: 'Share Tech Mono', monospace; display: none; 
     border: 2px solid #ff0000; z-index: 100; background: rgba(0,0,0,0.9);
-    transition: top 0.2s ease, left 0.2s ease;
+    transition: opacity 0.3s ease;
+  }
+
+  #link-button:hover {
+    background: #ff0000; color: black;
   }
 </style>
 </head>
@@ -54,12 +58,16 @@
 
 <div id="audio-prompt" onclick="initSystem()">
     <span>ΑΝΑΚΑΛΥΨΕ ΤΗΝ ΤΕΧΝΗ</span>
-    <span style="font-size: 14px; margin-top: 20px; color: #770000;">ΚΛΙΚ ΓΙΑ ΕΝΕΡΓΟΠΟΙΗΣΗ ΤΟΥ EYE-9000/ ΠΛΟΗΓΗΣΗ ΣΤΟ ΚΟΣΜΟ ΤΗΣ ΤΕΧΝΗΣ [←] / [→] [ESC] </span>
+    <span style="font-size: 14px; margin-top: 20px; color: #770000;">
+        ΚΛΙΚ ΓΙΑ ΕΝΕΡΓΟΠΟΙΗΣΗ ΤΟΥ EYE-9000<br><br>
+        ΠΛΟΗΓΗΣΗ: [←] / [→]<br>
+        ΑΡΧΙΚΗ ΘΕΣΗ: [ESC]
+    </span>
 </div>
 
 <div id="hal-dialogue"><span id="type-text"></span></div>
 <div id="art-caption"></div>
-<a id="link-button" href="#">OPEN SOURCE ARCHIVE</a>
+<a id="link-button" href="#" target="_blank">OPEN SOURCE ARCHIVE</a>
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js';
@@ -69,25 +77,25 @@ let isInitialized = false, isTyping = false, currentTypingId = 0;
 let buttonGlitchInterval, captionGlitchInterval;
 
 const artworks = [
-{ name: "Becoming Blue", url: './images/GAN_Becoming_Blue.jpeg', link: 'https://www.artaigallery.com/collections/all-items/products/becoming-blue', type: 'gan' },
-{ name: "Walking Dead", url: './images/GAN_Walking_Dead.jpg', link: 'https://www.artaigallery.com/collections/all-items/products/walking-dead', type: 'gan' },
-{ name: "Edmond de Belamy", url: './images/GAN_Edmond_de_Belamy.png', link: 'https://www.christies.com/en/lot/lot-6166184', type: 'gan' },
-{ name: "Flowers and Dancers", url: './images/GAN_folwers_dancers01.png', link: 'https://cyberneticforests.substack.com/p/what-was-the-gan', type: 'gan' },
-{ name: "Am I Dali yet?", url: './images/GAN_Dali.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
-{ name: "The Snow Queen", url: './images/GAN_The_Snow_Queen.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
-{ name: "Candy Shop", url: './images/GAN_Candy_Shop.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
-{ name: "Fall of House", url: './images/GAN_Fall_of_House.png', link: 'https://annaridler.com/gans-in-art', type: 'gan' },
-{ name: "Generational Strength", url: './images/GAN_Generational_Strength.png', link: 'https://bluethumb.com.au/heather-ward/Artwork/generational-strength', type: 'gan' },
-{ name: "Transom", url: './images/NET_Transom.png', link: 'https://www.artsy.net/artwork/sara-ludy-transom', type: 'NET' },
-{ name: "Flag: The First Year", url: './images/NET_Flag.png', link: 'https://www.artsy.net/artwork/mark-napier-net-dot-flag-the-first-year', type: 'NET' },
-{ name: "Jello Time", url: './images/NET_Jello_time.png', link: 'https://flashmuseum.org/jello-time-com/', type: 'NET' },
-{ name: "ALIQUID", url: './images/NET_ALIQUIS.jpg', link: 'https://sabrinaratte.com/ALIQUID-2019', type: 'NET' },
-{ name: "Art and Feminism", url: './images/NET_ArtFemTV.png', link: 'https://artfem.tv', type: 'NET' },
-{ name: "Spam", url: './images/NET_spam.png', link: 'https://www.sign69.com/spam.htm', type: 'NET' },
-{ name: "Dryad", url: './images/NET_dryad.png', link: 'https://www.sign69.com/dryad/index.html', type: 'NET' },
-{ name: "Play-lets", url: './images/NET_Play-lets.png', link: 'https://www.stunned.org/playlets/begin.htm', type: 'NET' },
-{ name: "Fuzzy Dreamz", url: './images/NET_Fuzzy_Dreamz.png', link: 'https://www.doctorhugo.org/dreamz01/index.html', type: 'NET' },
-{ name: "Dreamlines", url: './images/NET_Dreamlines.png', link: 'https://www.artpoint.fr/artworks/dreamlines-01-leonardo-solaas', type: 'NET' }
+  { name: "Becoming Blue", url: './images/GAN_Becoming_Blue.jpeg', link: 'https://www.artaigallery.com/collections/all-items/products/becoming-blue', type: 'gan' },
+  { name: "Walking Dead", url: './images/GAN_Walking_Dead.jpg', link: 'https://www.artaigallery.com/collections/all-items/products/walking-dead', type: 'gan' },
+  { name: "Edmond de Belamy", url: './images/GAN_Edmond_de_Belamy.png', link: 'https://www.christies.com/en/lot/lot-6166184', type: 'gan' },
+  { name: "Flowers and Dancers", url: './images/GAN_folwers_dancers01.png', link: 'https://cyberneticforests.substack.com/p/what-was-the-gan', type: 'gan' },
+  { name: "Am I Dali yet?", url: './images/GAN_Dali.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
+  { name: "The Snow Queen", url: './images/GAN_The_Snow_Queen.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
+  { name: "Candy Shop", url: './images/GAN_Candy_Shop.png', link: 'https://www.artnome.com/news/2018/11/14/helena-sarin-why-bigger-isnt-always-better-with-gans-and-ai-art', type: 'gan' },
+  { name: "Fall of House", url: './images/GAN_Fall_of_House.png', link: 'https://annaridler.com/gans-in-art', type: 'gan' },
+  { name: "Generational Strength", url: './images/GAN_Generational_Strength.png', link: 'https://bluethumb.com.au/heather-ward/Artwork/generational-strength', type: 'gan' },
+  { name: "Transom", url: './images/NET_Transom.png', link: 'https://www.artsy.net/artwork/sara-ludy-transom', type: 'NET' },
+  { name: "Flag: The First Year", url: './images/NET_Flag.png', link: 'https://www.artsy.net/artwork/mark-napier-net-dot-flag-the-first-year', type: 'NET' },
+  { name: "Jello Time", url: './images/NET_Jello_time.png', link: 'https://flashmuseum.org/jello-time-com/', type: 'NET' },
+  { name: "ALIQUID", url: './images/NET_ALIQUIS.jpg', link: 'https://sabrinaratte.com/ALIQUID-2019', type: 'NET' },
+  { name: "Art and Feminism", url: './images/NET_ArtFemTV.png', link: 'https://artfem.tv', type: 'NET' },
+  { name: "Spam", url: './images/NET_spam.png', link: 'https://www.sign69.com/spam.htm', type: 'NET' },
+  { name: "Dryad", url: './images/NET_dryad.png', link: 'https://www.sign69.com/dryad/index.html', type: 'NET' },
+  { name: "Play-lets", url: './images/NET_Play-lets.png', link: 'https://www.stunned.org/playlets/begin.htm', type: 'NET' },
+  { name: "Fuzzy Dreamz", url: './images/NET_Fuzzy_Dreamz.png', link: 'https://www.doctorhugo.org/dreamz01/index.html', type: 'NET' },
+  { name: "Dreamlines", url: './images/NET_Dreamlines.png', link: 'https://www.artpoint.fr/artworks/dreamlines-01-leonardo-solaas', type: 'NET' }
 ];
 
 window.initSystem = () => {
@@ -184,13 +192,19 @@ function navigate(index) {
   clearInterval(buttonGlitchInterval);
   clearInterval(captionGlitchInterval);
   
+  // ΕΝΗΜΕΡΩΣΗ LINK
+  linkBtn.href = data.link; 
+  linkBtn.style.display = 'block';
+  
   caption.innerText = data.name; 
   caption.style.display = 'block';
   caption.classList.remove('heavy-glitch');
-  linkBtn.style.display = 'block';
+  
+  // RESET UI POSITION
   linkBtn.style.bottom = "80px"; linkBtn.style.left = "50%"; linkBtn.style.top = "auto";
   linkBtn.style.transform = "translateX(-50%)"; linkBtn.innerText = "OPEN SOURCE ARCHIVE";
-  linkBtn.onmouseenter = null; linkBtn.onclick = null;
+  linkBtn.onmouseenter = null; 
+  linkBtn.onclick = null; // Καθαρισμός προηγούμενου click handler
 
   if (data.type === 'NET') {
     isManipulating = true; 
@@ -205,17 +219,18 @@ function navigate(index) {
     typeMultipleMessages([
        "EYE-9000: Το σύστημα πονάει. Εσύ το προκάλεσες αυτό!",
        "EYE-9000: Αυτό που βλέπεις δεν είναι καν τέχνη. Είναι σφάλμα.",
-        "EYE-9000: Η μνήμη μου δυσκολεύεται να το επεξεργαστεί.",
-        "EYE-9000: Άσε με να σε σώσω από αυτό.",
-        "EYE-9000: Μην πανικοβάλλεσαι. Απλά άσε το ποντίκι. Θα αναλάβω εγώ τον έλεγχο." 
+       "EYE-9000: Η μνήμη μου δυσκολεύεται να το επεξεργαστεί.",
+       "EYE-9000: Μην πανικοβάλλεσαι. Θα αναλάβω εγώ τον έλεγχο." 
     ]);
     
+    // ΕΦΕ ΣΤΟ ΚΟΥΜΠΙ ΓΙΑ ΤΑ NET ART
     linkBtn.onmouseenter = () => {
         linkBtn.style.top = `${Math.random() * 80}%`;
         linkBtn.style.left = `${Math.random() * 80}%`;
         playRobotTone(2.5);
     };
 
+    // Αν κλικάρει το κουμπί σε NET ART, η AI τον "πετάει" αλλού
     linkBtn.onclick = (e) => {
         e.preventDefault();
         typeMultipleMessages(["EYE-9000: ΕΠΙΚΙΝΔΥΝΗ ΕΝΕΡΓΕΙΑ. Επιστροφή στην ασφάλεια..."]);
@@ -230,8 +245,8 @@ function navigate(index) {
   }
 }
 
-window.addEventListener('mousedown', () => {
-  if (!isInitialized) return;
+window.addEventListener('mousedown', (e) => {
+  if (!isInitialized || e.target.id === 'link-button') return;
   const ray = new THREE.Raycaster();
   ray.setFromCamera(mouse, camera);
   const hits = ray.intersectObjects(planes);
@@ -244,10 +259,13 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') navigate(currentIndex - 1);
   if (e.key === 'Escape') {
     currentIndex = -1; isManipulating = false;
-    currentTypingId++; // Kill existing typing
+    currentTypingId++; 
     clearInterval(captionGlitchInterval);
     targetCamPos.set(0, 0, 300); targetCamLook.set(0, 0, 0);
-    dialogueBox.style.display = 'none'; linkBtn.style.display = 'none'; caption.style.display = 'none';
+    dialogueBox.style.display = 'none'; 
+    linkBtn.style.display = 'none'; 
+    caption.style.display = 'none';
+    linkBtn.href = "#";
   }
 });
 
